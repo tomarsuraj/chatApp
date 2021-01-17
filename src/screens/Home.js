@@ -1,24 +1,86 @@
-import React, {useContext} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
-import {UserContext} from '../context/Context';
+import React, {useContext, useEffect} from 'react';
+import {StyleSheet, Text, View, FlatList, TouchableOpacity} from 'react-native';
+//Firebase
+import firestore from '@react-native-firebase/firestore';
+import auth from '@react-native-firebase/auth';
 
-const Home = () => {
-  const {appData} = useContext(UserContext);
+import {UserContext} from '../context/Context';
+import FAB from 'react-native-fab';
+import {globalStyles} from '../globalStyles';
+import {SET_CHAT_LIST} from '../context/action.type';
+import MiniCard from '../components/MiniCard';
+
+const Home = ({navigation}) => {
+  const {appData, dispatch} = useContext(UserContext);
+  const {user, chatList} = appData;
+
+  const openChat = (chatId) => {
+    navigation.navigate('Chat', chatId);
+  };
+
+  useEffect(() => {
+    const subscriber = firestore()
+      .collection('Chats')
+      .where('usersUid', 'array-contains', user.uid)
+      .onSnapshot((querySnapshot) => {
+        console.log('Total Chata: ', querySnapshot._docs);
+
+        const chatlist = [];
+
+        querySnapshot.docs.forEach((chat) => {
+          chatlist.push(chat._data);
+        });
+        dispatch({type: SET_CHAT_LIST, payload: chatlist});
+        console.log('Chat', chatlist);
+      });
+
+    // Stop listening for updates when no longer required
+    return () => subscriber();
+  }, []);
+
   return (
-    <View>
-      <Text>Home {appData.isAuthenticated ? <Text>True</Text> : null}</Text>
-      {appData.user ? (
-        <>
-          <Text>{appData.user.name}</Text>
-          <Text>{appData.user.uid}</Text>
-        </>
-      ) : (
-        <Text>User dosent exist</Text>
-      )}
+    <View style={globalStyles.container}>
+      <FlatList
+        data={chatList}
+        keyExtractor={(chatList) => chatList.chatId}
+        renderItem={({item}) => (
+          <TouchableOpacity onPress={() => openChat(item.chatId)}>
+            {item.userDetailes1.uid === user.uid ? (
+              <MiniCard item={item.userDetailes2} />
+            ) : (
+              <MiniCard item={item.userDetailes1} />
+            )}
+          </TouchableOpacity>
+        )}
+        ListEmptyComponent={() => <Text>NO </Text>}
+      />
+
+      <FAB
+        buttonColor="red"
+        iconTextColor="#FFFFFF"
+        onClickAction={() => {
+          navigation.navigate('AddChat');
+        }}
+        visible={true}
+      />
     </View>
   );
 };
 
 export default Home;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  addChatButton: {
+    borderWidth: 1,
+    borderColor: 'rgba(0,0,0,0.2)',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 70,
+    position: 'absolute',
+    bottom: 10,
+    right: 10,
+    height: 70,
+    backgroundColor: '#0f4c75',
+    borderRadius: 100,
+  },
+});

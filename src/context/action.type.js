@@ -2,4 +2,5 @@ export const IS_AUTHTHENTICATED = 'IS_AUTHTHENTICATED';
 export const SET_USER = 'SET_USER';
 
 export const SET_USER_ALL_CHATS_LIST = 'SET_USER_ALL_CHATS_LIST';
+export const SET_CHAT_LIST = 'SET_CHAT_LIST';
 export const SET_CHAT = 'SET_CHAT';

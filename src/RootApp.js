@@ -8,6 +8,8 @@ import appReducer from './context/reducer';
 const initialState = {
   isAuthenticated: false,
   user: {},
+  chat: {},
+  chatList: {},
 };
 const RootApp = () => {
   const [appData, dispatch] = useReducer(appReducer, initialState);

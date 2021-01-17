@@ -25,7 +25,6 @@ const SignUp = ({navigation}) => {
           .doc(data.user.uid)
           .set({
             name,
-
             email,
             bio,
             uid: data.user.uid,

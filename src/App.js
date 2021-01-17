@@ -14,6 +14,10 @@ import SignIn from './screens/SignIn';
 import SignUp from './screens/SignUp';
 import Home from './screens/Home';
 import {IS_AUTHTHENTICATED, SET_USER} from './context/action.type';
+import AddChat from './screens/AddChat';
+import Chat from './screens/Chat';
+import EmptyContainer from './components/EmptyContainer';
+import HeaderHome from './layout/HeaderHome';
 
 const Stack = createStackNavigator();
 
@@ -22,7 +26,6 @@ const App = () => {
 
   const onAuthStateChanged = (user) => {
     if (user) {
-      // console.log(user._user.uid);
       dispatch({type: IS_AUTHTHENTICATED, payload: true});
 
       firestore()
@@ -30,23 +33,34 @@ const App = () => {
         .doc(user._user.uid)
         .get()
         .then((documentSnapshot) => {
-          console.log('Total users: ', documentSnapshot._data);
+          console.log('users: ', documentSnapshot._data);
           dispatch({type: SET_USER, payload: documentSnapshot._data});
         });
     }
   };
+
+  console.log('User in App ', appData.user);
 
   useEffect(() => {
     const susbcriber = auth().onAuthStateChanged(onAuthStateChanged);
     return susbcriber;
   }, []);
 
+  if (!appData.user.uid && appData.isAuthenticated) {
+    return <EmptyContainer />;
+  }
+
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator
+        screenOptions={{
+          header: (props) => <HeaderHome {...props} />,
+        }}>
         {appData.isAuthenticated ? (
           <>
             <Stack.Screen name="Home" component={Home} />
+            <Stack.Screen name="AddChat" component={AddChat} />
+            <Stack.Screen name="Chat" component={Chat} />
           </>
         ) : (
           <>
