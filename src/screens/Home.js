@@ -1,5 +1,12 @@
 import React, {useContext, useEffect} from 'react';
-import {StyleSheet, Text, View, FlatList, TouchableOpacity} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  FlatList,
+  TouchableOpacity,
+  Button,
+} from 'react-native';
 //Firebase
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
@@ -30,7 +37,9 @@ const Home = ({navigation}) => {
         querySnapshot.docs.forEach((chat) => {
           chatlist.push(chat._data);
         });
-        dispatch({type: SET_CHAT_LIST, payload: chatlist});
+        if (chatlist.length != 0) {
+          dispatch({type: SET_CHAT_LIST, payload: chatlist});
+        }
         console.log('Chat', chatlist);
       });
 
@@ -40,21 +49,22 @@ const Home = ({navigation}) => {
 
   return (
     <View style={globalStyles.container}>
-      <FlatList
-        data={chatList}
-        keyExtractor={(chatList) => chatList.chatId}
-        renderItem={({item}) => (
-          <TouchableOpacity onPress={() => openChat(item.chatId)}>
-            {item.userDetailes1.uid === user.uid ? (
-              <MiniCard item={item.userDetailes2} />
-            ) : (
-              <MiniCard item={item.userDetailes1} />
-            )}
-          </TouchableOpacity>
-        )}
-        ListEmptyComponent={() => <Text>NO </Text>}
-      />
-
+      <Button title="Sign Out" onPress={() => auth().signOut()} />
+      {chatList && (
+        <FlatList
+          data={chatList}
+          keyExtractor={(chatList) => chatList.chatId}
+          renderItem={({item}) => (
+            <TouchableOpacity onPress={() => openChat(item.chatId)}>
+              {item.userDetailes1.uid === user.uid ? (
+                <MiniCard item={item.userDetailes2} />
+              ) : (
+                <MiniCard item={item.userDetailes1} />
+              )}
+            </TouchableOpacity>
+          )}
+        />
+      )}
       <FAB
         buttonColor="red"
         iconTextColor="#FFFFFF"
