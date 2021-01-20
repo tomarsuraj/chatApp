@@ -36,6 +36,8 @@ const App = () => {
           console.log('users: ', documentSnapshot._data);
           dispatch({type: SET_USER, payload: documentSnapshot._data});
         });
+    } else {
+      dispatch({type: IS_AUTHTHENTICATED, payload: false});
     }
   };
 
