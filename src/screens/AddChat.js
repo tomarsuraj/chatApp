@@ -8,17 +8,24 @@ import firestore from '@react-native-firebase/firestore';
 
 import MiniCard from '../components/MiniCard';
 
-const AddChat = () => {
+const AddChat = ({navigation}) => {
   const {appData} = useContext(UserContext);
-  const {user} = appData;
+  const {user, chatList} = appData;
   const [allUsers, setAllUsers] = useState(null);
 
   const addChat = async (friendDetails) => {
-    console.log('Add Chat Called');
+    // Check chat present in system with firend
+    for (const chatDetails of chatList) {
+      const {usersUid} = chatDetails;
+      if (usersUid.includes(friendDetails.uid)) {
+        // if chat presnt in system navigate to prev chat
+        navigation.navigate('Chat', chatDetails.chatId);
+        return false;
+      }
+    }
 
+    // add chat to database if prev chat with firend is not present
     const add = firestore().collection('Chats').doc();
-
-    console.log('ADD ', add);
 
     add
       .set({
@@ -29,6 +36,8 @@ const AddChat = () => {
       })
       .then(() => {
         console.log('Friend added!');
+        // nav to new chat created
+        navigation.navigate('Chat', add.id);
       })
       .catch((error) => {
         console.log('Error while adding firend', error);
