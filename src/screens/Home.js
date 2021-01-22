@@ -40,13 +40,13 @@ const Home = ({navigation}) => {
         if (chatlist.length != 0) {
           dispatch({type: SET_CHAT_LIST, payload: chatlist});
         }
-        console.log('Chat', chatlist);
       });
 
     // Stop listening for updates when no longer required
     return () => subscriber();
   }, []);
 
+  console.log('Chat', chatList);
   return (
     <View style={globalStyles.container}>
       <Button title="Sign Out" onPress={() => auth().signOut()} />

@@ -13,11 +13,17 @@ import {createStackNavigator} from '@react-navigation/stack';
 import SignIn from './screens/SignIn';
 import SignUp from './screens/SignUp';
 import Home from './screens/Home';
-import {IS_AUTHTHENTICATED, SET_USER} from './context/action.type';
+import {
+  IS_AUTHTHENTICATED,
+  SET_CHAT,
+  SET_CHAT_LIST,
+  SET_USER,
+} from './context/action.type';
 import AddChat from './screens/AddChat';
 import Chat from './screens/Chat';
 import EmptyContainer from './components/EmptyContainer';
 import HeaderHome from './layout/HeaderHome';
+import Search from './screens/Search';
 
 const Stack = createStackNavigator();
 
@@ -38,17 +44,18 @@ const App = () => {
         });
     } else {
       dispatch({type: IS_AUTHTHENTICATED, payload: false});
+      dispatch({type: SET_USER, payload: []});
+      dispatch({type: SET_CHAT_LIST, payload: []});
+      dispatch({type: SET_CHAT, payload: null});
     }
   };
-
-  console.log('User in App ', appData.user);
 
   useEffect(() => {
     const susbcriber = auth().onAuthStateChanged(onAuthStateChanged);
     return susbcriber;
   }, []);
 
-  if (!appData.user.uid && appData.isAuthenticated) {
+  if (appData.isAuthenticated && !appData.user.uid) {
     return <EmptyContainer />;
   }
 
@@ -63,6 +70,7 @@ const App = () => {
             <Stack.Screen name="Home" component={Home} />
             <Stack.Screen name="AddChat" component={AddChat} />
             <Stack.Screen name="Chat" component={Chat} />
+            <Stack.Screen name="Search" component={Search} />
           </>
         ) : (
           <>
