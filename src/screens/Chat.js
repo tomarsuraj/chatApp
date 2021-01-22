@@ -37,6 +37,7 @@ const Chat = ({route}) => {
       })
       .then(() => {
         console.log('Message send!');
+        setTextMessagesToSend('');
       })
       .catch((error) => console.log('Error in sending mess', error));
   };

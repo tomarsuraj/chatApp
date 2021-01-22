@@ -23,6 +23,7 @@ const Search = ({navigation}) => {
   const openChat = (chatId) => {
     navigation.navigate('Chat', chatId);
   };
+  console.log('chatList SSSS', chatList);
 
   const filterChatListfun = (val) => {
     var filterlist = chatList.filter((chat) => {
@@ -31,6 +32,7 @@ const Search = ({navigation}) => {
       if (userDetailes2.name.includes(val)) return true;
     });
     setFilterChatList(filterlist);
+    console.log('filterlist SSSS', filterlist);
   };
 
   return (

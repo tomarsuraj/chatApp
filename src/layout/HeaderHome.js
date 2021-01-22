@@ -1,7 +1,6 @@
 import React from 'react';
 import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 
-import IconM from 'react-native-vector-icons/MaterialCommunityIcons';
 import IconI from 'react-native-vector-icons/Ionicons';
 import IconO from 'react-native-vector-icons/Octicons';
 
@@ -17,12 +16,7 @@ const HeaderHome = ({navigation}) => {
         <TouchableOpacity onPress={() => navigation.navigate('Search')}>
           <IconI name="search" color="#fff" size={24} style={styles.icon} />
         </TouchableOpacity>
-        <IconM
-          name="android-messages"
-          color="#fff"
-          size={24}
-          style={styles.icon}
-        />
+
         <IconO
           name="kebab-vertical"
           color="#fff"
