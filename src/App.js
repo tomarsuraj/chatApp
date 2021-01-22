@@ -18,6 +18,7 @@ import AddChat from './screens/AddChat';
 import Chat from './screens/Chat';
 import EmptyContainer from './components/EmptyContainer';
 import HeaderHome from './layout/HeaderHome';
+import Search from './screens/Search';
 
 const Stack = createStackNavigator();
 
@@ -63,6 +64,7 @@ const App = () => {
             <Stack.Screen name="Home" component={Home} />
             <Stack.Screen name="AddChat" component={AddChat} />
             <Stack.Screen name="Chat" component={Chat} />
+            <Stack.Screen name="Search" component={Search} />
           </>
         ) : (
           <>

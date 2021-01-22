@@ -1,18 +1,22 @@
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 
 import IconM from 'react-native-vector-icons/MaterialCommunityIcons';
 import IconI from 'react-native-vector-icons/Ionicons';
 import IconO from 'react-native-vector-icons/Octicons';
 
-const HeaderHome = () => {
+const HeaderHome = ({navigation}) => {
   return (
     <View style={styles.headerContainer}>
       <View style={styles.logContainer}>
-        <Text style={styles.logText}>ChatApp</Text>
+        <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+          <Text style={styles.logText}>ChatApp</Text>
+        </TouchableOpacity>
       </View>
       <View style={styles.optionContainer}>
-        <IconI name="search" color="#fff" size={24} style={styles.icon} />
+        <TouchableOpacity onPress={() => navigation.navigate('Search')}>
+          <IconI name="search" color="#fff" size={24} style={styles.icon} />
+        </TouchableOpacity>
         <IconM
           name="android-messages"
           color="#fff"
