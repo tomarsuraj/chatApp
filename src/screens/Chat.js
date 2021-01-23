@@ -17,8 +17,8 @@ import ShowMess from '../components/ShowMess';
 
 const Chat = ({route}) => {
   const {appData, dispatch} = useContext(UserContext);
-  const {chat} = appData;
-  const chatId = route.params;
+  const {chat, activeChat} = appData;
+  const {chatId} = activeChat;
   const [textMessagesToSend, setTextMessagesToSend] = useState(null);
 
   const sendMessage = async () => {
@@ -61,8 +61,6 @@ const Chat = ({route}) => {
     // Stop listening for updates when no longer required
     return () => subscriber();
   }, []);
-
-  console.log('Context Chata', appData.chat);
 
   return (
     <View style={styles.container}>

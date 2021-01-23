@@ -14,15 +14,16 @@ import auth from '@react-native-firebase/auth';
 import {UserContext} from '../context/Context';
 import FAB from 'react-native-fab';
 import {globalStyles} from '../globalStyles';
-import {SET_CHAT_LIST} from '../context/action.type';
+import {SET_ACTIVE_CHAT, SET_CHAT_LIST} from '../context/action.type';
 import MiniCard from '../components/MiniCard';
 
 const Home = ({navigation}) => {
   const {appData, dispatch} = useContext(UserContext);
   const {user, chatList} = appData;
 
-  const openChat = (chatId) => {
-    navigation.navigate('Chat', chatId);
+  const openChat = (chat) => {
+    navigation.navigate('Chat');
+    dispatch({type: SET_ACTIVE_CHAT, payload: chat});
   };
 
   useEffect(() => {
@@ -55,7 +56,7 @@ const Home = ({navigation}) => {
           data={chatList}
           keyExtractor={(chatList) => chatList.chatId}
           renderItem={({item}) => (
-            <TouchableOpacity onPress={() => openChat(item.chatId)}>
+            <TouchableOpacity onPress={() => openChat(item)}>
               {item.userDetailes1.uid === user.uid ? (
                 <MiniCard item={item.userDetailes2} />
               ) : (

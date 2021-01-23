@@ -5,25 +5,31 @@ import {UserContext} from './context/Context';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 
+// react navigation
 import 'react-native-gesture-handler';
 
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
-
-import SignIn from './screens/SignIn';
-import SignUp from './screens/SignUp';
-import Home from './screens/Home';
+import {useNavigation} from '@react-navigation/native';
+// Action
 import {
   IS_AUTHTHENTICATED,
   SET_CHAT,
   SET_CHAT_LIST,
   SET_USER,
 } from './context/action.type';
+
+// Components
+import SignIn from './screens/SignIn';
+import SignUp from './screens/SignUp';
+import Home from './screens/Home';
+
 import AddChat from './screens/AddChat';
 import Chat from './screens/Chat';
 import EmptyContainer from './components/EmptyContainer';
-import HeaderHome from './layout/HeaderHome';
 import Search from './screens/Search';
+import ChatHeader from './layout/ChatHeader';
+import HomeHeader from './layout/HomeHeader';
 
 const Stack = createStackNavigator();
 
@@ -63,13 +69,28 @@ const App = () => {
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{
-          header: (props) => <HeaderHome {...props} />,
+          headerStyle: {
+            backgroundColor: '#075E54',
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+            fontSize: 24,
+          },
         }}>
         {appData.isAuthenticated ? (
           <>
-            <Stack.Screen name="Home" component={Home} />
+            <Stack.Screen
+              name="Home"
+              component={Home}
+              options={{headerTitle: (props) => <HomeHeader {...props} />}}
+            />
             <Stack.Screen name="AddChat" component={AddChat} />
-            <Stack.Screen name="Chat" component={Chat} />
+            <Stack.Screen
+              name="Chat"
+              component={Chat}
+              options={{headerTitle: (props) => <ChatHeader {...props} />}}
+            />
             <Stack.Screen name="Search" component={Search} />
           </>
         ) : (

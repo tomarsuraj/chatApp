@@ -10,6 +10,7 @@ const initialState = {
   user: {},
   chat: {},
   chatList: {},
+  activeChat: {},
 };
 const RootApp = () => {
   const [appData, dispatch] = useReducer(appReducer, initialState);
