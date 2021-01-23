@@ -1,5 +1,6 @@
 import {
   IS_AUTHTHENTICATED,
+  SET_ACTIVE_CHAT,
   SET_CHAT,
   SET_CHAT_LIST,
   SET_USER,
@@ -28,6 +29,12 @@ export default (state, action) => {
       return {
         ...state,
         chat: action.payload,
+      };
+
+    case SET_ACTIVE_CHAT:
+      return {
+        ...state,
+        activeChat: action.payload,
       };
 
     default:
