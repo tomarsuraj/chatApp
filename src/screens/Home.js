@@ -31,8 +31,6 @@ const Home = ({navigation}) => {
       .collection('Chats')
       .where('usersUid', 'array-contains', user.uid)
       .onSnapshot((querySnapshot) => {
-        console.log('Total Chata: ', querySnapshot._docs);
-
         const chatlist = [];
 
         querySnapshot.docs.forEach((chat) => {
@@ -47,7 +45,6 @@ const Home = ({navigation}) => {
     return () => subscriber();
   }, []);
 
-  console.log('Chat', chatList);
   return (
     <View style={globalStyles.container}>
       <Button title="Sign Out" onPress={() => auth().signOut()} />

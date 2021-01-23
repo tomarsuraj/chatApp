@@ -49,7 +49,6 @@ const Chat = ({route}) => {
       .collection('messages')
       .orderBy('timeStamp', 'desc')
       .onSnapshot((querySnapshot) => {
-        console.log('Chat: ', querySnapshot._docs);
         const chat = [];
 
         querySnapshot.docs.forEach((mess) => {
