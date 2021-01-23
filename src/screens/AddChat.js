@@ -6,20 +6,27 @@ import {UserContext} from '../context/Context';
 //Firebase
 import firestore from '@react-native-firebase/firestore';
 
+// Action types
+import {SET_ACTIVE_CHAT} from '../context/action.type';
+
+// Components
 import MiniCard from '../components/MiniCard';
 
 const AddChat = ({navigation}) => {
-  const {appData} = useContext(UserContext);
+  const {appData, dispatch} = useContext(UserContext);
   const {user, chatList} = appData;
   const [allUsers, setAllUsers] = useState(null);
 
   const addChat = async (friendDetails) => {
     // Check chat present in system with firend
+
     for (const chatDetails of chatList) {
       const {usersUid} = chatDetails;
       if (usersUid.includes(friendDetails.uid)) {
         // if chat presnt in system navigate to prev chat
-        navigation.navigate('Chat', chatDetails.chatId);
+        navigation.navigate('Chat');
+        dispatch({type: SET_ACTIVE_CHAT, payload: chatDetails});
+
         return false;
       }
     }
@@ -68,8 +75,6 @@ const AddChat = ({navigation}) => {
   useEffect(() => {
     getAllUser();
   }, []);
-
-  console.log('ADD CHAT SCREEN');
 
   return (
     <View>

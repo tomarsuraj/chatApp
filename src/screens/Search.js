@@ -5,23 +5,30 @@ import {UserContext} from '../context/Context';
 import {
   FlatList,
   StyleSheet,
-  Text,
   View,
   TouchableOpacity,
   TextInput,
 } from 'react-native';
+
+// Action type
+import {SET_ACTIVE_CHAT} from '../context/action.type';
+
+// Components
 import MiniCard from '../components/MiniCard';
+
+// Global Style Sheet
 import {globalStyles} from '../globalStyles';
 
 const Search = ({navigation}) => {
-  const {appData} = useContext(UserContext);
+  const {appData, dispatch} = useContext(UserContext);
 
   const {chatList, user} = appData;
 
   const [filterChatList, setFilterChatList] = useState(chatList);
 
-  const openChat = (chatId) => {
-    navigation.navigate('Chat', chatId);
+  const openChat = (chat) => {
+    navigation.navigate('Chat');
+    dispatch({type: SET_ACTIVE_CHAT, payload: chat});
   };
   console.log('chatList SSSS', chatList);
 
@@ -49,7 +56,7 @@ const Search = ({navigation}) => {
           data={filterChatList}
           keyExtractor={(filterChatList) => filterChatList.chatId}
           renderItem={({item}) => (
-            <TouchableOpacity onPress={() => openChat(item.chatId)}>
+            <TouchableOpacity onPress={() => openChat(item)}>
               {item.userDetailes1.uid === user.uid ? (
                 <MiniCard item={item.userDetailes2} />
               ) : (
