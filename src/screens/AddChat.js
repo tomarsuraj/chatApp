@@ -6,8 +6,7 @@ import {UserContext} from '../context/Context';
 //Firebase
 import firestore from '@react-native-firebase/firestore';
 
-// Action types
-import {SET_ACTIVE_CHAT} from '../context/action.type';
+import {addChat} from '../context/databaseFunctions';
 
 // Components
 import MiniCard from '../components/MiniCard';
@@ -16,40 +15,6 @@ const AddChat = ({navigation}) => {
   const {appData, dispatch} = useContext(UserContext);
   const {user, chatList} = appData;
   const [allUsers, setAllUsers] = useState(null);
-
-  const addChat = async (friendDetails) => {
-    // Check chat present in system with firend
-
-    for (const chatDetails of chatList) {
-      const {usersUid} = chatDetails;
-      if (usersUid.includes(friendDetails.uid)) {
-        // if chat presnt in system navigate to prev chat
-        navigation.navigate('Chat');
-        dispatch({type: SET_ACTIVE_CHAT, payload: chatDetails});
-
-        return false;
-      }
-    }
-
-    // add chat to database if prev chat with firend is not present
-    const add = firestore().collection('Chats').doc();
-
-    add
-      .set({
-        usersUid: [friendDetails.uid, user.uid],
-        userDetailes1: user,
-        userDetailes2: friendDetails,
-        chatId: add.id,
-      })
-      .then(() => {
-        console.log('Friend added!');
-        // nav to new chat created
-        navigation.navigate('Chat', add.id);
-      })
-      .catch((error) => {
-        console.log('Error while adding firend', error);
-      });
-  };
 
   const getAllUser = async () => {
     console.log('GET ALL USER FUN');
@@ -82,7 +47,16 @@ const AddChat = ({navigation}) => {
         data={allUsers}
         keyExtractor={(allUsers) => allUsers.uid}
         renderItem={({item}) => (
-          <TouchableOpacity onPress={() => addChat(item)}>
+          <TouchableOpacity
+            onPress={() =>
+              addChat({
+                chatList,
+                user,
+                friendDetails: item,
+                navigation,
+                dispatch,
+              })
+            }>
             <MiniCard item={item} key={item.uid} />
           </TouchableOpacity>
         )}

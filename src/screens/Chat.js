@@ -8,59 +8,27 @@ import {
   FlatList,
 } from 'react-native';
 
-//Firebase
-import firestore from '@react-native-firebase/firestore';
+//Firebase functions
+import {fetchChat, sendMessage} from '../context/databaseFunctions';
 
 import {UserContext} from '../context/Context';
-import {SET_CHAT} from '../context/action.type';
 import ShowMess from '../components/ShowMess';
 
-const Chat = ({route}) => {
+const Chat = () => {
   const {appData, dispatch} = useContext(UserContext);
-  const {chat, activeChat} = appData;
+  const {chats, activeChat} = appData;
   const {chatId} = activeChat;
   const [textMessagesToSend, setTextMessagesToSend] = useState(null);
-
-  const sendMessage = async () => {
-    const send = firestore()
-      .collection('Chats')
-      .doc(chatId)
-      .collection('messages')
-      .doc();
-
-    send
-      .set({
-        message: textMessagesToSend,
-        senderId: appData.user.uid,
-        timeStamp: firestore.Timestamp.now(),
-        messageId: send.id,
-      })
-      .then(() => {
-        console.log('Message send!');
-        setTextMessagesToSend('');
-      })
-      .catch((error) => console.log('Error in sending mess', error));
-  };
+  const chat = chats[chatId];
 
   useEffect(() => {
-    const subscriber = firestore()
-      .collection('Chats')
-      .doc(chatId)
-      .collection('messages')
-      .orderBy('timeStamp', 'desc')
-      .onSnapshot((querySnapshot) => {
-        const chat = [];
+    const subscriber = () => fetchChat({chatId, dispatch});
 
-        querySnapshot.docs.forEach((mess) => {
-          chat.push(mess._data);
-        });
-        dispatch({type: SET_CHAT, payload: chat});
-      });
-
-    // Stop listening for updates when no longer required
+    //Stop listening for updates when no longer required
     return () => subscriber();
   }, []);
 
+  console.log('Chats', chats);
   return (
     <View style={styles.container}>
       <View style={styles.messageContainer}>
@@ -83,7 +51,10 @@ const Chat = ({route}) => {
           value={textMessagesToSend}
         />
         <View style={styles.sendButton}>
-          <Button title="Send" onPress={sendMessage} />
+          <Button
+            title="Send"
+            onPress={() => sendMessage({appData, chatId, textMessagesToSend})}
+          />
         </View>
       </View>
     </View>

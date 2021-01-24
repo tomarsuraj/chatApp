@@ -15,7 +15,6 @@ import {SET_ACTIVE_CHAT} from '../context/action.type';
 
 // Components
 import MiniCard from '../components/MiniCard';
-
 // Global Style Sheet
 import {globalStyles} from '../globalStyles';
 

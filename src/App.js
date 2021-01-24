@@ -10,11 +10,11 @@ import 'react-native-gesture-handler';
 
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
-import {useNavigation} from '@react-navigation/native';
+
 // Action
 import {
   IS_AUTHTHENTICATED,
-  SET_CHAT,
+  SET_CHATS,
   SET_CHAT_LIST,
   SET_USER,
 } from './context/action.type';
@@ -23,7 +23,6 @@ import {
 import SignIn from './screens/SignIn';
 import SignUp from './screens/SignUp';
 import Home from './screens/Home';
-
 import AddChat from './screens/AddChat';
 import Chat from './screens/Chat';
 import EmptyContainer from './components/EmptyContainer';
@@ -36,10 +35,11 @@ const Stack = createStackNavigator();
 const App = () => {
   const {appData, dispatch} = useContext(UserContext);
 
+  // Function to check auth state of user
   const onAuthStateChanged = (user) => {
     if (user) {
+      // if user is authenticated then featching all user data from database
       dispatch({type: IS_AUTHTHENTICATED, payload: true});
-
       firestore()
         .collection('Users')
         .doc(user._user.uid)
@@ -49,10 +49,11 @@ const App = () => {
           dispatch({type: SET_USER, payload: documentSnapshot._data});
         });
     } else {
+      // if user is not authenticated the cleanup state
       dispatch({type: IS_AUTHTHENTICATED, payload: false});
       dispatch({type: SET_USER, payload: []});
       dispatch({type: SET_CHAT_LIST, payload: []});
-      dispatch({type: SET_CHAT, payload: null});
+      dispatch({type: SET_CHATS, payload: null});
     }
   };
 
@@ -61,6 +62,7 @@ const App = () => {
     return susbcriber;
   }, []);
 
+  // Loading page that will display till user data load from database
   if (appData.isAuthenticated && !appData.user.uid) {
     return <EmptyContainer />;
   }

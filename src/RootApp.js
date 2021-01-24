@@ -8,7 +8,7 @@ import appReducer from './context/reducer';
 const initialState = {
   isAuthenticated: false,
   user: {},
-  chat: {},
+  chats: {},
   chatList: {},
   activeChat: {},
 };

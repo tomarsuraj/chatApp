@@ -1,7 +1,7 @@
 import {
   IS_AUTHTHENTICATED,
   SET_ACTIVE_CHAT,
-  SET_CHAT,
+  SET_CHATS,
   SET_CHAT_LIST,
   SET_USER,
 } from './action.type';
@@ -25,11 +25,16 @@ export default (state, action) => {
         ...state,
         chatList: action.payload,
       };
-    case SET_CHAT:
+    case SET_CHATS: {
+      const {chatId} = action;
+      var chats = state.chats;
+      chats[chatId] = action.payload;
+
       return {
         ...state,
-        chat: action.payload,
+        chats,
       };
+    }
 
     case SET_ACTIVE_CHAT:
       return {
