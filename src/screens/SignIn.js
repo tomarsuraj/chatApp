@@ -23,7 +23,6 @@ const SignIn = ({navigation}) => {
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault();
     handleSignUp();
   };
 

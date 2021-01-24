@@ -13,6 +13,8 @@ import {fetchChat, sendMessage} from '../context/databaseFunctions';
 
 import {UserContext} from '../context/Context';
 import ShowMess from '../components/ShowMess';
+import {globalStyles} from '../globalStyles';
+import AppButton from '../components/AppButton';
 
 const Chat = () => {
   const {appData, dispatch} = useContext(UserContext);
@@ -36,14 +38,14 @@ const Chat = () => {
       </View>
       <View style={styles.sendContainer}>
         <TextInput
-          style={styles.input}
+          style={[globalStyles.input, styles.input]}
           keyboardType="default"
           placeholder="Enter Messages"
           onChangeText={(val) => setTextMessagesToSend(val)}
           value={textMessagesToSend}
         />
         <View style={styles.sendButton}>
-          <Button
+          <AppButton
             title="Send"
             onPress={() =>
               sendMessage({
@@ -65,15 +67,13 @@ export default Chat;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'pink',
+    backgroundColor: '#CAD5E2',
     flexDirection: 'column',
   },
   input: {
-    borderRadius: 10,
-    backgroundColor: '#666666',
-    marginHorizontal: 10,
-    marginVertical: 5,
     flex: 4,
+    marginHorizontal: 10,
+    height: 50,
   },
   messageContainer: {
     flex: 5,

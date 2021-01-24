@@ -29,7 +29,6 @@ const Search = ({navigation}) => {
     navigation.navigate('Chat');
     dispatch({type: SET_ACTIVE_CHAT, payload: chat});
   };
-  console.log('chatList SSSS', chatList);
 
   const filterChatListfun = (val) => {
     var filterlist = chatList.filter((chat) => {
@@ -44,10 +43,7 @@ const Search = ({navigation}) => {
   return (
     <View>
       <TextInput
-        style={[
-          globalStyles.input,
-          {marginHorizontal: 15, borderColor: '#075E54'},
-        ]}
+        style={[globalStyles.input, {marginHorizontal: 15}]}
         onChangeText={(val) => filterChatListfun(val)}
       />
       {chatList && (
@@ -57,9 +53,9 @@ const Search = ({navigation}) => {
           renderItem={({item}) => (
             <TouchableOpacity onPress={() => openChat(item)}>
               {item.userDetailes1.uid === user.uid ? (
-                <MiniCard item={item.userDetailes2} />
+                <MiniCard name={item.userDetailes2.name} />
               ) : (
-                <MiniCard item={item.userDetailes1} />
+                <MiniCard name={item.userDetailes1.name} />
               )}
             </TouchableOpacity>
           )}

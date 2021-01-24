@@ -1,10 +1,13 @@
 import React from 'react';
-import {StyleSheet, Button, View} from 'react-native';
+import {StyleSheet, Button, View, Text} from 'react-native';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 
 const AppButton = ({title, onPress}) => {
   return (
     <View style={styles.button}>
-      <Button title={title} onPress={onPress} />
+      <TouchableOpacity onPress={onPress}>
+        <Text style={styles.text}>{title}</Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -13,7 +16,14 @@ export default AppButton;
 
 const styles = StyleSheet.create({
   button: {
-    margin: 10,
+    padding: 5,
     fontSize: 16,
+    borderRadius: 10,
+    backgroundColor: '#075E54',
+  },
+  text: {
+    color: '#fff',
+    alignSelf: 'center',
+    fontSize: 24,
   },
 });
