@@ -1,9 +1,20 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {UserContext} from '../context/Context';
 
-const MiniCard = ({item}) => {
+const MiniCard = ({name, chatId}) => {
+  const {appData} = useContext(UserContext);
+
+  const {chats} = appData;
+  const chat = chats[chatId];
+
+  console.log('Chat', chat);
+  if (chat) {
+    console.log('Chat', chat[0]);
+  }
+
   return (
     <View style={styles.miniCard}>
       <Icon
@@ -13,8 +24,10 @@ const MiniCard = ({item}) => {
         style={styles.icon}
       />
       <View style={styles.textContainer}>
-        <Text style={styles.senderName}>{item.name}</Text>
-        <Text style={styles.lastMess}>Cooming Sooon</Text>
+        <Text style={styles.senderName}>{name}</Text>
+        <Text style={styles.lastMess}>
+          {chat && chat[0] && chat[0].message}
+        </Text>
       </View>
     </View>
   );

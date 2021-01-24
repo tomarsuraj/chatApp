@@ -1,7 +1,12 @@
 import firestore from '@react-native-firebase/firestore';
 import {SET_ACTIVE_CHAT, SET_CHATS} from './action.type';
 
-export const sendMessage = async ({chatId, textMessagesToSend, appData}) => {
+export const sendMessage = async ({
+  chatId,
+  textMessagesToSend,
+  appData,
+  setTextMessagesToSend,
+}) => {
   const send = firestore()
     .collection('Chats')
     .doc(chatId)

@@ -57,7 +57,7 @@ const AddChat = ({navigation}) => {
                 dispatch,
               })
             }>
-            <MiniCard item={item} key={item.uid} />
+            <MiniCard name={item.name} key={item.uid} />
           </TouchableOpacity>
         )}
         ListEmptyComponent={() => <Text>NO </Text>}

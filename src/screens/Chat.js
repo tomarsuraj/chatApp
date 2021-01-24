@@ -21,14 +21,6 @@ const Chat = () => {
   const [textMessagesToSend, setTextMessagesToSend] = useState(null);
   const chat = chats[chatId];
 
-  useEffect(() => {
-    const subscriber = () => fetchChat({chatId, dispatch});
-
-    //Stop listening for updates when no longer required
-    return () => subscriber();
-  }, []);
-
-  console.log('Chats', chats);
   return (
     <View style={styles.container}>
       <View style={styles.messageContainer}>
@@ -53,7 +45,14 @@ const Chat = () => {
         <View style={styles.sendButton}>
           <Button
             title="Send"
-            onPress={() => sendMessage({appData, chatId, textMessagesToSend})}
+            onPress={() =>
+              sendMessage({
+                appData,
+                chatId,
+                textMessagesToSend,
+                setTextMessagesToSend,
+              })
+            }
           />
         </View>
       </View>

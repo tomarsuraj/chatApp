@@ -16,6 +16,7 @@ import FAB from 'react-native-fab';
 import {globalStyles} from '../globalStyles';
 import {SET_ACTIVE_CHAT, SET_CHAT_LIST} from '../context/action.type';
 import MiniCard from '../components/MiniCard';
+import {fetchChat} from '../context/databaseFunctions';
 
 const Home = ({navigation}) => {
   const {appData, dispatch} = useContext(UserContext);
@@ -24,6 +25,7 @@ const Home = ({navigation}) => {
   const openChat = (chat) => {
     navigation.navigate('Chat');
     dispatch({type: SET_ACTIVE_CHAT, payload: chat});
+    fetchChat({chatId: chat.chatId, dispatch});
   };
 
   useEffect(() => {
@@ -55,9 +57,9 @@ const Home = ({navigation}) => {
           renderItem={({item}) => (
             <TouchableOpacity onPress={() => openChat(item)}>
               {item.userDetailes1.uid === user.uid ? (
-                <MiniCard item={item.userDetailes2} />
+                <MiniCard name={item.userDetailes2.name} chatId={item.chatId} />
               ) : (
-                <MiniCard item={item.userDetailes1} />
+                <MiniCard name={item.userDetailes1.name} chatId={item.chatId} />
               )}
             </TouchableOpacity>
           )}
