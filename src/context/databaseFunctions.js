@@ -1,5 +1,5 @@
 import firestore from '@react-native-firebase/firestore';
-import {SET_ACTIVE_CHAT, SET_CHATS} from './action.type';
+import {SET_ACTIVE_CHAT, SET_All_USER, SET_CHATS} from './action.type';
 
 export const sendMessage = async ({
   chatId,
@@ -27,6 +27,23 @@ export const sendMessage = async ({
     .catch((error) => console.log('Error in sending mess', error));
 };
 
+export const fetchChat = async ({chatId, dispatch}) => {
+  firestore()
+    .collection('Chats')
+    .doc(chatId)
+    .collection('messages')
+    .orderBy('timeStamp', 'desc')
+    .onSnapshot((querySnapshot) => {
+      const chat = [];
+
+      querySnapshot.docs.forEach((mess) => {
+        chat.push(mess._data);
+      });
+
+      dispatch({type: SET_CHATS, payload: chat, chatId});
+    });
+};
+
 export const addChat = async ({
   friendDetails,
   chatList,
@@ -42,6 +59,7 @@ export const addChat = async ({
       // if chat presnt in system navigate to prev chat
       navigation.navigate('Chat');
       dispatch({type: SET_ACTIVE_CHAT, payload: chatDetails});
+      fetchChat({chatId: chatDetails.chatId, dispatch});
 
       return false;
     }
@@ -73,22 +91,5 @@ export const addChat = async ({
     })
     .catch((error) => {
       console.log('Error while adding firend', error);
-    });
-};
-
-export const fetchChat = async ({chatId, dispatch}) => {
-  firestore()
-    .collection('Chats')
-    .doc(chatId)
-    .collection('messages')
-    .orderBy('timeStamp', 'desc')
-    .onSnapshot((querySnapshot) => {
-      const chat = [];
-
-      querySnapshot.docs.forEach((mess) => {
-        chat.push(mess._data);
-      });
-
-      dispatch({type: SET_CHATS, payload: chat, chatId});
     });
 };

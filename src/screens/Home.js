@@ -1,12 +1,5 @@
-import React, {useContext, useEffect} from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  FlatList,
-  TouchableOpacity,
-  Button,
-} from 'react-native';
+import React, {useContext, useEffect, useState} from 'react';
+import {View, FlatList, TouchableOpacity, Button} from 'react-native';
 //Firebase
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
@@ -20,7 +13,18 @@ import {fetchChat} from '../context/databaseFunctions';
 
 const Home = ({navigation}) => {
   const {appData, dispatch} = useContext(UserContext);
-  const {user, chatList} = appData;
+  const {user, chatList, searchChatByName} = appData;
+
+  const [filterChatList, setFilterChatList] = useState(chatList);
+
+  const filterChatListfun = (searchChatByName) => {
+    var filterlist = chatList.filter((chat) => {
+      const {userDetailes1, userDetailes2} = chat;
+      if (userDetailes1.name.includes(searchChatByName)) return true;
+      if (userDetailes2.name.includes(searchChatByName)) return true;
+    });
+    setFilterChatList(filterlist);
+  };
 
   const openChat = (chat) => {
     navigation.navigate('Chat');
@@ -47,13 +51,21 @@ const Home = ({navigation}) => {
     return () => subscriber();
   }, []);
 
+  useEffect(() => {
+    if (chatList.length) filterChatListfun(searchChatByName);
+  }, [searchChatByName]);
+
+  useEffect(() => {
+    setFilterChatList(chatList);
+  }, [chatList]);
+
   return (
     <View style={globalStyles.container}>
       <Button title="Sign Out" onPress={() => auth().signOut()} />
-      {chatList && (
+      {filterChatList && (
         <FlatList
-          data={chatList}
-          keyExtractor={(chatList) => chatList.chatId}
+          data={filterChatList}
+          keyExtractor={(filterChatList) => filterChatList.chatId}
           renderItem={({item}) => (
             <TouchableOpacity onPress={() => openChat(item)}>
               {item.userDetailes1.uid === user.uid ? (
@@ -78,19 +90,3 @@ const Home = ({navigation}) => {
 };
 
 export default Home;
-
-const styles = StyleSheet.create({
-  addChatButton: {
-    borderWidth: 1,
-    borderColor: 'rgba(0,0,0,0.2)',
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: 70,
-    position: 'absolute',
-    bottom: 10,
-    right: 10,
-    height: 70,
-    backgroundColor: '#0f4c75',
-    borderRadius: 100,
-  },
-});

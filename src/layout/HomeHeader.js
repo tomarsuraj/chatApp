@@ -1,29 +1,61 @@
-import React from 'react';
-import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
+import React, {useState, useContext} from 'react';
+import {
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+  TouchableOpacity,
+} from 'react-native';
 
 //Icon
 import IconI from 'react-native-vector-icons/Ionicons';
 import IconO from 'react-native-vector-icons/Octicons';
+import {SET_SEARCH_CHAT_BY_NAME} from '../context/action.type';
+import {UserContext} from '../context/Context';
 
-import {useNavigation} from '@react-navigation/native';
+import {globalStyles} from '../globalStyles';
 const HomeHeader = () => {
-  const navigation = useNavigation();
+  const {appData, dispatch} = useContext(UserContext);
+  const {searchChatByName} = appData;
+
+  const [openSearchInput, setOpenSearchInput] = useState(false);
+
   return (
     <View style={styles.headerContainer}>
       <View style={styles.logContainer}>
         <Text style={styles.logText}>ChatApp</Text>
       </View>
-      <View style={styles.optionContainer}>
-        <TouchableOpacity onPress={() => navigation.navigate('Search')}>
-          <IconI name="search" color="#fff" size={24} style={styles.icon} />
-        </TouchableOpacity>
-        <IconO
-          name="kebab-vertical"
-          color="#fff"
-          size={24}
-          style={styles.icon}
-        />
-      </View>
+
+      {openSearchInput ? (
+        <View style={styles.searchContainer}>
+          <TextInput
+            style={[globalStyles.input, {borderColor: '#fff', color: '#fff'}]}
+            placeholder="Enter Name to Search"
+            placeholderTextColor="#fff"
+            onBlur={() => setOpenSearchInput(false)}
+            autoFocus={true}
+            value={searchChatByName}
+            onChangeText={(val) =>
+              dispatch({type: SET_SEARCH_CHAT_BY_NAME, payload: val})
+            }
+          />
+        </View>
+      ) : (
+        <View style={styles.optionContainer}>
+          <TouchableOpacity
+            onPress={() => {
+              setOpenSearchInput(true);
+            }}>
+            <IconI name="search" color="#fff" size={24} style={styles.icon} />
+          </TouchableOpacity>
+          <IconO
+            name="kebab-vertical"
+            color="#fff"
+            size={24}
+            style={styles.icon}
+          />
+        </View>
+      )}
     </View>
   );
 };
@@ -51,6 +83,14 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     alignItems: 'center',
   },
+
+  searchContainer: {
+    flex: 3,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
   icon: {
     marginHorizontal: 15,
   },

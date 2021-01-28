@@ -17,7 +17,7 @@ import {globalStyles} from '../globalStyles';
 import AppButton from '../components/AppButton';
 
 const Chat = () => {
-  const {appData, dispatch} = useContext(UserContext);
+  const {appData} = useContext(UserContext);
   const {chats, activeChat} = appData;
   const {chatId} = activeChat;
   const [textMessagesToSend, setTextMessagesToSend] = useState(null);

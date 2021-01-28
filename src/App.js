@@ -26,7 +26,6 @@ import Home from './screens/Home';
 import AddChat from './screens/AddChat';
 import Chat from './screens/Chat';
 import EmptyContainer from './components/EmptyContainer';
-import Search from './screens/Search';
 import ChatHeader from './layout/ChatHeader';
 import HomeHeader from './layout/HomeHeader';
 
@@ -93,7 +92,6 @@ const App = () => {
               component={Chat}
               options={{headerTitle: (props) => <ChatHeader {...props} />}}
             />
-            <Stack.Screen name="Search" component={Search} />
           </>
         ) : (
           <>

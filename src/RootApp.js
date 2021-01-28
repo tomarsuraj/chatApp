@@ -11,6 +11,7 @@ const initialState = {
   chats: {},
   chatList: {},
   activeChat: {},
+  searchChatByName: '',
 };
 const RootApp = () => {
   const [appData, dispatch] = useReducer(appReducer, initialState);

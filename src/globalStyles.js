@@ -16,12 +16,13 @@ export const globalStyles = StyleSheet.create({
     marginVertical: 6,
   },
   input: {
-    borderWidth: 1,
+    borderWidth: 2,
     borderColor: '#075E54',
     padding: 10,
     fontSize: 20,
-    borderRadius: 6,
+    borderRadius: 30,
     marginVertical: 5,
+    width: '90%',
   },
   image: {
     width: '100%',

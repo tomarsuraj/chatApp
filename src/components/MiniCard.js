@@ -10,11 +10,6 @@ const MiniCard = ({name, chatId}) => {
   const {chats} = appData;
   const chat = chats[chatId];
 
-  console.log('Chat', chat);
-  if (chat) {
-    console.log('Chat', chat[0]);
-  }
-
   return (
     <View style={styles.miniCard}>
       <Icon

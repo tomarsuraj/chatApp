@@ -4,7 +4,7 @@ import {StyleSheet, Text, View} from 'react-native';
 import {UserContext} from '../context/Context';
 
 const ChatHeader = () => {
-  const {appData, dispatch} = useContext(UserContext);
+  const {appData} = useContext(UserContext);
 
   const {activeChat, user} = appData;
 
