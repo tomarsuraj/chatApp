@@ -19,12 +19,29 @@ export const sendMessage = async ({
       senderId: appData.user.uid,
       timeStamp: firestore.Timestamp.now(),
       messageId: send.id,
+      isMessageSeen: false,
     })
     .then(() => {
       console.log('Message send!');
       setTextMessagesToSend('');
     })
     .catch((error) => console.log('Error in sending mess', error));
+};
+
+export const markMessageAsSeen = async ({chatId, messageId, name}) => {
+  firestore()
+    .collection('Chats')
+    .doc(chatId)
+    .collection('messages')
+    .doc(messageId)
+    .update({
+      isMessageSeen: true,
+    })
+
+    .then(() => {
+      console.log('mark mess seen! ', name, 'messid', messageId);
+    })
+    .catch((error) => console.log('Error in marking mess as seen', error));
 };
 
 export const fetchChat = async ({chatId, dispatch}) => {

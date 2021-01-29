@@ -16,10 +16,8 @@ const AddChat = ({navigation}) => {
   const {user, chatList} = appData;
   const [allUsers, setAllUsers] = useState(null);
 
-  const getAllUser = async () => {};
-
   useEffect(() => {
-    const susbcriber = firestore()
+    firestore()
       .collection('Users')
       .where('uid', '!=', user.uid)
       .get()
@@ -35,8 +33,6 @@ const AddChat = ({navigation}) => {
         setAllUsers(users);
         console.log('users', users);
       });
-
-    return () => susbcriber();
   }, []);
 
   return (
