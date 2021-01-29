@@ -7,13 +7,17 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
+// firebase auth
+import auth from '@react-native-firebase/auth';
+
 //Icon
 import IconI from 'react-native-vector-icons/Ionicons';
-import IconO from 'react-native-vector-icons/Octicons';
+import IconM from 'react-native-vector-icons/MaterialCommunityIcons';
 import {SET_SEARCH_CHAT_BY_NAME} from '../context/action.type';
 import {UserContext} from '../context/Context';
 
 import {globalStyles} from '../globalStyles';
+
 const HomeHeader = () => {
   const {appData, dispatch} = useContext(UserContext);
   const {searchChatByName} = appData;
@@ -48,11 +52,12 @@ const HomeHeader = () => {
             }}>
             <IconI name="search" color="#fff" size={24} style={styles.icon} />
           </TouchableOpacity>
-          <IconO
-            name="kebab-vertical"
-            color="#fff"
+          <IconM
+            name="logout"
+            color="red"
             size={24}
             style={styles.icon}
+            onPress={() => auth().signOut()}
           />
         </View>
       )}
@@ -74,7 +79,7 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   logText: {
-    fontSize: 24,
+    fontSize: 20,
     color: '#fff',
   },
   optionContainer: {

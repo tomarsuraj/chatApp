@@ -6,6 +6,7 @@ import {
   TextInput,
   View,
   FlatList,
+  TouchableOpacity,
 } from 'react-native';
 
 //Firebase functions
@@ -14,7 +15,7 @@ import {fetchChat, sendMessage} from '../context/databaseFunctions';
 import {UserContext} from '../context/Context';
 import ShowMess from '../components/ShowMess';
 import {globalStyles} from '../globalStyles';
-import AppButton from '../components/AppButton';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const Chat = () => {
   const {appData} = useContext(UserContext);
@@ -44,19 +45,23 @@ const Chat = () => {
           onChangeText={(val) => setTextMessagesToSend(val)}
           value={textMessagesToSend}
         />
-        <View style={styles.sendButton}>
-          <AppButton
-            title="Send"
-            onPress={() =>
-              sendMessage({
-                appData,
-                chatId,
-                textMessagesToSend,
-                setTextMessagesToSend,
-              })
-            }
+        <TouchableOpacity
+          style={styles.sendIcon}
+          onPress={() =>
+            sendMessage({
+              appData,
+              chatId,
+              textMessagesToSend,
+              setTextMessagesToSend,
+            })
+          }>
+          <Icon
+            name="send"
+            color="#075E54"
+            size={44}
+            style={{alignSelf: 'center'}}
           />
-        </View>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -85,7 +90,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginHorizontal: 4,
   },
-  sendButton: {
+  sendIcon: {
     flex: 1,
+    justifyContent: 'center',
+    alignContent: 'center',
   },
 });

@@ -28,4 +28,9 @@ export const globalStyles = StyleSheet.create({
     width: '100%',
     height: '100%',
   },
+  fome: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginVertical: 10,
+  },
 });

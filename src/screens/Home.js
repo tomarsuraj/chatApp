@@ -1,8 +1,8 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {View, FlatList, TouchableOpacity, Button} from 'react-native';
+import {View, FlatList, TouchableOpacity} from 'react-native';
+
 //Firebase
 import firestore from '@react-native-firebase/firestore';
-import auth from '@react-native-firebase/auth';
 
 import {UserContext} from '../context/Context';
 import FAB from 'react-native-fab';
@@ -61,7 +61,6 @@ const Home = ({navigation}) => {
 
   return (
     <View style={globalStyles.container}>
-      <Button title="Sign Out" onPress={() => auth().signOut()} />
       {filterChatList && (
         <FlatList
           data={filterChatList}

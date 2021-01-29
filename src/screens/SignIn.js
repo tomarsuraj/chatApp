@@ -1,5 +1,5 @@
 import React, {useState, useContext} from 'react';
-import {Text, View, Button, TextInput} from 'react-native';
+import {Text, View, Button, StyleSheet, TextInput} from 'react-native';
 
 // Firebase
 import auth from '@react-native-firebase/auth';
@@ -29,32 +29,43 @@ const SignIn = ({navigation}) => {
   return (
     <View style={globalStyles.container}>
       <Text style={globalStyles.titleText}>Sign In</Text>
+      <View style={globalStyles.fome}>
+        <TextInput
+          keyboardType="email-address"
+          style={globalStyles.input}
+          placeholder="Enter Email"
+          onChangeText={(val) => setEmail(val)}
+          value={email}
+        />
+        <TextInput
+          secureTextEntry
+          style={globalStyles.input}
+          placeholder="Enter Password"
+          onChangeText={(val) => setPassword(val)}
+          value={password}
+        />
 
-      <TextInput
-        keyboardType="email-address"
-        style={globalStyles.input}
-        placeholder="Enter Email"
-        onChangeText={(val) => setEmail(val)}
-        value={email}
-      />
-      <TextInput
-        secureTextEntry
-        style={globalStyles.input}
-        placeholder="Enter Password"
-        onChangeText={(val) => setPassword(val)}
-        value={password}
-      />
+        <AppButton title="Sign In" onPress={handleSubmit} />
+      </View>
+      <View style={styles.signUpText}>
+        <Text style={{fontSize: 24}}>If you dont have account.</Text>
 
-      <AppButton title="Sign In" onPress={handleSubmit} />
-
-      <Text>If new User sign Up</Text>
-
-      <AppButton
-        title="Sign Up"
-        onPress={() => navigation.navigate('SignUp')}
-      />
+        <Text
+          style={{color: '#075E54', fontSize: 24}}
+          onPress={() => navigation.navigate('SignUp')}>
+          SignUp
+        </Text>
+      </View>
     </View>
   );
 };
 
 export default SignIn;
+
+const styles = StyleSheet.create({
+  signUpText: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});

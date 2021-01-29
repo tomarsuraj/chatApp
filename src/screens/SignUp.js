@@ -46,35 +46,36 @@ const SignUp = ({navigation}) => {
   return (
     <View style={globalStyles.container}>
       <Text style={globalStyles.titleText}>SignUp</Text>
+      <View style={globalStyles.fome}>
+        <TextInput
+          style={globalStyles.input}
+          placeholder="Enter Name"
+          onChangeText={(val) => setName(val)}
+          value={name}
+        />
+        <TextInput
+          style={globalStyles.input}
+          placeholder="Enter Bio"
+          onChangeText={(val) => setBio(val)}
+          value={bio}
+        />
+        <TextInput
+          keyboardType="email-address"
+          style={globalStyles.input}
+          placeholder="Enter Email"
+          onChangeText={(val) => setEmail(val)}
+          value={email}
+        />
+        <TextInput
+          secureTextEntry
+          style={globalStyles.input}
+          placeholder="Enter Password"
+          onChangeText={(val) => setPassword(val)}
+          value={password}
+        />
 
-      <TextInput
-        style={globalStyles.input}
-        placeholder="Enter Name"
-        onChangeText={(val) => setName(val)}
-        value={name}
-      />
-      <TextInput
-        style={globalStyles.input}
-        placeholder="Enter Bio"
-        onChangeText={(val) => setBio(val)}
-        value={bio}
-      />
-      <TextInput
-        keyboardType="email-address"
-        style={globalStyles.input}
-        placeholder="Enter Email"
-        onChangeText={(val) => setEmail(val)}
-        value={email}
-      />
-      <TextInput
-        secureTextEntry
-        style={globalStyles.input}
-        placeholder="Enter Password"
-        onChangeText={(val) => setPassword(val)}
-        value={password}
-      />
-
-      <AppButton title="Sign Up" onPress={handleSubmit} />
+        <AppButton title="Sign Up" onPress={handleSubmit} />
+      </View>
     </View>
   );
 };
